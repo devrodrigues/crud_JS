@@ -47,31 +47,52 @@ function activateInput() {
 
 function render() {
 
+    function createDeleteButton(index) {
+
+        function deleteName() {
+            globalNames.splice(index, 1);
+            render();
+        }
+
+        let button = document.createElement('button');
+        button.classList.add('deleteButton');
+        button.textContent = 'x';
+
+        button.addEventListener('click', deleteName);
+
+        return button;
+
+    }
+
     let divNames = document.querySelector('#names');
+    divNames.innerHTML = '';
+
     let ul = document.createElement('ul');
-
-    //divNames.innerHTML = '<ul><li>Nome 1</li><li>Nome 2</li></ul>;'
-
-    /*
-    let ul = document.createElement('ul');
-    let li1 = document.createElement('li');
-    let li2 = document.createElement('li');
-
-    li1.textContent = 'Primeiro';
-    li2.textContent = 'Segundo';
-    ul.appendChild(li1);
-    ul.appendChild(li2);
-    */
 
     for(let i = 0; i < globalNames.length; i++) {
 
         let currentName = globalNames[i];
+
         let li = document.createElement('li');
-        li.textContent = currentName;
+        let button = createDeleteButton();
+
+        let span = document.createElement('span');
+        span.textContent = currentName;
+
+        li.appendChild(button);
+        li.appendChild(span);
         ul.appendChild(li);
 
     }
 
     divNames.appendChild(ul);
+    clearInput();
+
+}
+
+function clearInput() {
+
+    inputName.value = '';
+    inputName.focus();
 
 }
