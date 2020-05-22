@@ -1,49 +1,43 @@
-window.addEventListener('load', start);
-
 let globalNames = ['Fulano', 'Cicrano'];
 let inputName = null;
 let currentIndex = null;
 let isEditing = false;
 
-function start() {
-
+window.addEventListener('load', () => {
     inputName = document.querySelector('#inputName');
 
     preventFormSubmit();
     activateInput();
     render();
-    
-}
+});
 
-function preventFormSubmit() {
+const preventFormSubmit = () => {
+
+    const handleFormSubmit = (event) => {
+        event.preventDefault();
+    }
 
     let form = document.querySelector('form');
     form.addEventListener('submit', handleFormSubmit);
 
-    function handleFormSubmit(event) {
-        event.preventDefault();
-    }
-
 }
 
-function activateInput() {
+const activateInput = () => {
 
-    inputName.focus();
-    inputName.addEventListener('keyup', handleTyping);
-
-    function insertName(newName) {
+    const insertName = (newName) => {
         
-        globalNames.push(newName);
+        //globalNames.push(newName);
+        globalNames = [...globalNames, newName];
 
     }
 
-    function updateName(name) {
+    const updateName = (name) => {
         
         globalNames[currentIndex] = name;
 
     }
 
-    function handleTyping(event) {
+    const handleTyping = (event) => {
 
         let hasText = !!event.target.value && event.target.value.trim() !== '';
 
@@ -54,11 +48,7 @@ function activateInput() {
 
         if(event.key === 'Enter') {
 
-            if(isEditing) {
-                updateName(event.target.value);
-            } else {
-                insertName(event.target.value);
-            }
+            isEditing ? updateName(event.target.value) : insertName(event.target.value);
 
             render();
             // O padrão é o 'modo' de inserção, não de edição
@@ -68,17 +58,36 @@ function activateInput() {
         }
     }
 
+    inputName.focus();
+    inputName.addEventListener('keyup', handleTyping);
+
 }
 
-function render() {
+const render = () => {
 
-    function createDeleteButton(index) {
+    const createDeleteButton = (index) => {
 
-        function deleteName() {
+        const deleteName = () =>{
 
-            globalNames.splice(index, 1);
+            //globalNames.splice(index, 1);
+
+            /*
+            globalNames = globalNames.filter((name, i) => {
+                //isso
+                if(i === index) {
+                    return false;
+                }
+
+                return true;
+
+                //ou isso
+                return i !== index;
+            })
+            */
+
+            globalNames = globalNames.filter((_, i) => i !== index);
+               
             render();
-
         }
 
         let button = document.createElement('button');
@@ -89,9 +98,9 @@ function render() {
 
     }
 
-    function createSpan(name, index) {
+    const createSpan = (name, index) => {
 
-        function editItem() {
+        const editItem = () => {
 
             inputName.value = name;
             inputName.focus();
@@ -132,7 +141,7 @@ function render() {
 
 }
 
-function clearInput() {
+const clearInput = () => {
 
     inputName.value = '';
     inputName.focus();
