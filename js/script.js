@@ -1,6 +1,6 @@
 window.addEventListener('load', start);
 
-let globalNames = ['Um', 'Dois', 'Três', 'Quatro'];
+let globalNames = ['Fulano', 'Cicrano'];
 let inputName = null;
 let currentIndex = null;
 let isEditing = false;
@@ -37,9 +37,9 @@ function activateInput() {
 
     }
 
-    function updateName(newName) {
+    function updateName(name) {
         
-        globalNames[currentIndex] = newName;
+        globalNames[currentIndex] = name;
 
     }
 
@@ -129,7 +129,6 @@ function render() {
     }
 
     divNames.appendChild(ul);
-    clearInput();
 
 }
 
